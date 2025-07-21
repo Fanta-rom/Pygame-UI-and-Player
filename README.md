@@ -5,9 +5,21 @@ This is a simple UI and Player Class I made for my coding class and i thought it
 # Example Usage:
 
 NOTE:
-this is example code, I didnt check if it works, but it should clarify any confusion about how to use the modules accordingly
+this is example code, I didnt check if it works, but it should clarify any confusion about how to use the modules accordingly, it also contains a few print(interaction) for debugging, so you can know what caused the crash.
 
 Setup:
+Pygame:
+```py
+  import pygame
+  import sys # optional. only if you want the program to terminate ASAP, as shown in the loop below
+  
+  pygame.init()
+  pygame.font.init()
+  pygame.mixer.init()
+  Font = pygame.font.Font(size = 50)
+  screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN | pygame.SCALED)
+  clock = pygame.time.Clock()
+```
   Buttons:
 ```py
     PlayButton = Button("Play", DARK_GREY, 20, 100, 170, 50,
