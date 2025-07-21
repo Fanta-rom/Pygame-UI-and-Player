@@ -1,359 +1,361 @@
-BLUE = (0, 0, 255)
-LIGHT_BLUE = (190, 230, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-LIGHT_GREEN = (150, 255, 150)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-YELLOW = (255, 255, 0)
-ORANGE = (255, 165, 0)
-PURPLE = (128, 0, 128)
-PINK = (255, 192, 203)
-GREY = (128, 128, 128)
-LIGHT_GREY = (150, 150, 150)
-DARK_GREY = (40, 40, 40)
-DARK_GREEN = (0,155,0)
-BROWN = (150,75,0)
-
-class Button:
-    def __init__(self, text, color, x, y, width, height, text_color=BLACK,
-                 show_background=True, font=None, highlight_on_hover=False,
-                 highlight_color=None, highlight_text_color=None, rounded=False):
-        self.text = text
-        self.color = color
-        self.base_color = color
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.text_color = text_color
-        self.base_text_color = text_color  # store for hover recovery
-        self.font = font if font is not None else Font
-        self.rounded = rounded
-        self.show_background = show_background
-        self.highlight_on_hover = highlight_on_hover
-        self.highlight_color = highlight_color
-        self.highlight_text_color = highlight_text_color  # <-- NEW
-        self.rect = pygame.Rect(x, y, width, height)
-
-    def update_text(self, new_text):
-        self.text = new_text
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-
-    def update_text_colour(self, new_color):
-        self.text_color = new_color
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-
-    def update_rect_color(self, new_color):
-        self.color = new_color
-        self.base_color = new_color
-
-    def update_rect(self):
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
-
-    def draw(self, screen):
-        self.update_rect()
-
-        mouse_over = self.rect.collidepoint(pygame.mouse.get_pos())
-
-        draw_color = self.color
-        draw_text_color = self.text_color
-
-        if self.highlight_on_hover and mouse_over:
-            if self.highlight_color:
-                draw_color = self.highlight_color
-            if self.highlight_text_color:
-                draw_text_color = self.highlight_text_color
-
-        text_surface = self.font.render(self.text, True, draw_text_color)
-        if self.show_background:
-            if self.rounded:
-                border_radius = min(self.width, self.height) // 4
-                pygame.draw.rect(screen, draw_color, self.rect, border_radius=border_radius)
-            else:
-                pygame.draw.rect(screen, draw_color, self.rect)
-
-        text_x = self.x + (self.width - text_surface.get_width()) // 2
-        text_y = self.y + (self.height - text_surface.get_height()) // 2
-        screen.blit(text_surface, (text_x, text_y))
-
-    def is_hovered(self):
-        if self.highlight_on_hover and self.rect.collidepoint(pygame.mouse.get_pos()):
-            return True
-        return False
-
-    def is_clicked(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and self.rect.collidepoint(event.pos):
+```py
+    BLUE = (0, 0, 255)
+    LIGHT_BLUE = (190, 230, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    LIGHT_GREEN = (150, 255, 150)
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    YELLOW = (255, 255, 0)
+    ORANGE = (255, 165, 0)
+    PURPLE = (128, 0, 128)
+    PINK = (255, 192, 203)
+    GREY = (128, 128, 128)
+    LIGHT_GREY = (150, 150, 150)
+    DARK_GREY = (40, 40, 40)
+    DARK_GREEN = (0,155,0)
+    BROWN = (150,75,0)
+    
+    class Button:
+        def __init__(self, text, color, x, y, width, height, text_color=BLACK,
+                     show_background=True, font=None, highlight_on_hover=False,
+                     highlight_color=None, highlight_text_color=None, rounded=False):
+            self.text = text
+            self.color = color
+            self.base_color = color
+            self.x = x
+            self.y = y
+            self.width = width
+            self.height = height
+            self.text_color = text_color
+            self.base_text_color = text_color  # store for hover recovery
+            self.font = font if font is not None else Font
+            self.rounded = rounded
+            self.show_background = show_background
+            self.highlight_on_hover = highlight_on_hover
+            self.highlight_color = highlight_color
+            self.highlight_text_color = highlight_text_color  # <-- NEW
+            self.rect = pygame.Rect(x, y, width, height)
+    
+        def update_text(self, new_text):
+            self.text = new_text
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+    
+        def update_text_colour(self, new_color):
+            self.text_color = new_color
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+    
+        def update_rect_color(self, new_color):
+            self.color = new_color
+            self.base_color = new_color
+    
+        def update_rect(self):
+            self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+    
+        def draw(self, screen):
+            self.update_rect()
+    
+            mouse_over = self.rect.collidepoint(pygame.mouse.get_pos())
+    
+            draw_color = self.color
+            draw_text_color = self.text_color
+    
+            if self.highlight_on_hover and mouse_over:
+                if self.highlight_color:
+                    draw_color = self.highlight_color
+                if self.highlight_text_color:
+                    draw_text_color = self.highlight_text_color
+    
+            text_surface = self.font.render(self.text, True, draw_text_color)
+            if self.show_background:
+                if self.rounded:
+                    border_radius = min(self.width, self.height) // 4
+                    pygame.draw.rect(screen, draw_color, self.rect, border_radius=border_radius)
+                else:
+                    pygame.draw.rect(screen, draw_color, self.rect)
+    
+            text_x = self.x + (self.width - text_surface.get_width()) // 2
+            text_y = self.y + (self.height - text_surface.get_height()) // 2
+            screen.blit(text_surface, (text_x, text_y))
+    
+        def is_hovered(self):
+            if self.highlight_on_hover and self.rect.collidepoint(pygame.mouse.get_pos()):
                 return True
-        return False
-
-class Text:
-    def __init__(self, text, x, y, font, color):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.font = font
-        self.color = color
-        self.text_surface = self.font.render(self.text, True, self.color)
-
-    def draw(self, screen):
-        screen.blit(self.text_surface, (self.x, self.y))
-
-    def update_text(self, new_text):
-        self.text = new_text
-        self.text_surface = self.font.render(self.text, True, self.color)
-
-    def update_text_colour(self, new_color):
-        self.color = new_color
-        self.text_surface = self.font.render(self.text, True, self.color)
-
-class Slider:
-    def __init__(self, screen, x, y, width, height, min=0,
-                 max=100, initial=0, step=1, rounded=False):
-        self.screen = screen
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.min = min
-        self.max = max
-        self.step = step
-        self.value = initial
-        self.dragging = False
-        self.rounded = rounded
-        self.track_colour = (0, 0, 0)
-        self.fill_colour = (255, 255, 255)
-        self.handle_colour = (150, 150, 150)
-        self.enabled = True
-
-        self.handle_width = 20
-        self.handle_height = height + 10
-        self.handle_y = y - 5
-        self.handle_rect = pygame.Rect(self.get_handle_x(), self.handle_y,self.handle_width, self.handle_height)
-
-    def disable(self):
-        self.enabled = False
-
-    def enable(self):
-        self.enabled = True
-
-    def get_handle_x(self):
-        value_range = self.max - self.min
-        position_range = self.width - self.handle_width
-        relative_value = self.value - self.min
-        return self.x + (relative_value / value_range) * position_range
-
-    def update_fill_colour(self,new_colour):
-        self.fill_colour = new_colour
-
-    def update_track_colour(self, new_colour):
-        self.track_colour = new_colour
-        track_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, self.width, 4)
-
-    def update_handle_colour(self, new_colour):
-        self.handle_colour = new_colour
-        self.handle_rect = pygame.Rect(self.get_handle_x(), self.handle_y, self.handle_width, self.handle_height)
-
-    def draw(self):
-        track_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, self.width, 4)
-        filled_width = self.get_handle_x() - self.x + self.handle_width // 2
-        filled_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, filled_width, 4)
-        self.handle_rect.x = self.get_handle_x()
-
-        if self.rounded:
-            pygame.draw.rect(self.screen, self.track_colour, track_rect, border_radius=2)  # Track
-            pygame.draw.rect(self.screen, self.fill_colour, filled_rect, border_radius=2)  # Filled part
-            pygame.draw.rect(self.screen, self.handle_colour , self.handle_rect, border_radius=5)  # Handle
-        else:
-            pygame.draw.rect(self.screen, self.track_colour, track_rect)  # Track
-            pygame.draw.rect(self.screen, self.fill_colour, filled_rect)  # Filled part
-            pygame.draw.rect(self.screen, self.handle_colour, self.handle_rect)  # Handle
-
-    def listen(self, events):
-        if not self.enabled:
-            return
-
-        mouse_pos = pygame.mouse.get_pos()
-        for event in events:
+            return False
+    
+        def is_clicked(self, event):
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.handle_rect.collidepoint(mouse_pos):
-                    self.dragging = True
-            elif event.type == pygame.MOUSEBUTTONUP:
-                self.dragging = False
-            elif event.type == pygame.MOUSEMOTION and self.dragging:
-                relative_x = mouse_pos[0] - self.x
-                value_range = self.max - self.min
-                position_range = self.width - self.handle_width
-                new_value = (relative_x / position_range) * value_range + self.min
-
-                new_value = max(self.min, min(self.max, new_value))
-                new_value = round(new_value / self.step) * self.step
-                self.value = new_value
-
-    def getValue(self):
-        return self.value
-
-class RadioButton:
-    def __init__(self, text, x, y, radius, color_inactive, color_active, text_color=BLACK, selected=False, font=None):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.radius = radius
-        self.color_inactive = color_inactive
-        self.color_active = color_active
-        self.text_color = text_color
-        self.selected = selected
-        self.font = font or Font
-
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-        self.circle_center = (self.x + self.radius, self.y + self.radius)
-        self.rect = pygame.Rect(self.x, self.y, self.radius * 2 + self.text_surface.get_width() + 10, self.radius * 2)
-
-    def draw(self, screen):
-        pygame.draw.circle(screen, self.color_active if self.selected else self.color_inactive, self.circle_center, self.radius, 2)
-        if self.selected:
-            pygame.draw.circle(screen, self.color_active, self.circle_center, self.radius // 2)
-        text_x = self.x + self.radius * 2 + 5
-        text_y = self.y + (self.radius * 2 - self.text_surface.get_height()) // 2
-        screen.blit(self.text_surface, (text_x, text_y))
-
-    def is_clicked(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.rect.collidepoint(event.pos):
-                return True
-        return False
-
-    def set_selected(self, value):
-        self.selected = value
-
-class RadioGroup:
-    def __init__(self):
-        self.buttons = []
-
-    def add(self, button):
-        self.buttons.append(button)
-
-    def handle_event(self, event):
-        for button in self.buttons:
-            if button.is_clicked(event):
-                for b in self.buttons:
-                    b.set_selected(False)
-                button.set_selected(True)
-
-    def draw(self, screen):
-        for button in self.buttons:
-            button.draw(screen)
-
-class CheckBox:
-    def __init__(self, text, x, y, size, color_box, color_tick, text_color=BLACK, checked=False, font=None):
-        self.text = text
-        self.x = x
-        self.y = y
-        self.size = size
-        self.color_box = color_box
-        self.color_tick = color_tick
-        self.text_color = text_color
-        self.checked = checked
-        self.font = font or Font
-
-        self.rect = pygame.Rect(x, y, size, size)
-        self.text_surface = self.font.render(self.text, True, self.text_color)
-
-    def draw(self, screen):
-        # Draw box
-        pygame.draw.rect(screen, self.color_box, self.rect, 2)
-
-        if self.checked:
-            pygame.draw.line(screen, self.color_tick, (self.x + 4, self.y + self.size // 2),
-                             (self.x + self.size // 2, self.y + self.size - 4), 3)
-            pygame.draw.line(screen, self.color_tick, (self.x + self.size // 2, self.y + self.size - 4),
-                             (self.x + self.size - 4, self.y + 4), 3)
-
-        screen.blit(self.text_surface, (self.x + self.size + 10, self.y + (self.size - self.text_surface.get_height()) // 2))
-
-    def is_clicked(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.rect.collidepoint(event.pos):
-                self.checked = not self.checked
-                return True
-        return False
-
-    def set_checked(self, value):
-        self.checked = value
-
-    def is_checked(self):
-        return self.checked
-
-class Player:
-    def __init__(self, x, y, w, h, color, speed, left, right, front, back,image_offset_x,image_offset_y):
-        self.rect = pygame.Rect(x, y, w, h)
-        self.color = color
-        self.speed = speed  
-        self.image_offset_x = image_offset_x
-        self.image_offset_y = image_offset_y
-        self.playerx = self.rect.x - image_offset_x
-        self.playery = self.rect.y - image_offset_y
-        self.left = left
-        self.right = right
-        self.front = front
-        self.back = back
-
-    def move(self, keys, collidables):
-        global player_image
-
-        old_x = self.rect.x
-        old_y = self.rect.y
-
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.rect.x -= self.speed
-            player_image = pygame.image.load(self.left)
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.rect.x += self.speed
-            player_image = pygame.image.load(self.right)
-
-        for box in collidables:
-            if self.rect.colliderect(box):
-                self.rect.x = old_x
-                break
-
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            self.rect.y -= self.speed
-            player_image = pygame.image.load(self.back)
-        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            self.rect.y += self.speed
-            player_image = pygame.image.load(self.front)
-
-        for box in collidables:
-            if self.rect.colliderect(box):
-                self.rect.y = old_y
-                break
-
-        self.player_x = self.rect.x - self.image_offset_x
-        self.player_y = self.rect.y - self.image_offset_y
-
-    def draw(self, screen):
-        global player_image
-        keys = pygame.key.get_pressed()
-        if not ((keys[pygame.K_LEFT] or keys[pygame.K_a]) or (
-                keys[pygame.K_RIGHT] or keys[pygame.K_d]) or (
-                keys[pygame.K_UP] or keys[pygame.K_w]) or (
-                keys[pygame.K_DOWN] or keys[pygame.K_s])):
+                if event.button == 1 and self.rect.collidepoint(event.pos):
+                    return True
+            return False
+    
+    class Text:
+        def __init__(self, text, x, y, font, color):
+            self.text = text
+            self.x = x
+            self.y = y
+            self.font = font
+            self.color = color
+            self.text_surface = self.font.render(self.text, True, self.color)
+    
+        def draw(self, screen):
+            screen.blit(self.text_surface, (self.x, self.y))
+    
+        def update_text(self, new_text):
+            self.text = new_text
+            self.text_surface = self.font.render(self.text, True, self.color)
+    
+        def update_text_colour(self, new_color):
+            self.color = new_color
+            self.text_surface = self.font.render(self.text, True, self.color)
+    
+    class Slider:
+        def __init__(self, screen, x, y, width, height, min=0,
+                     max=100, initial=0, step=1, rounded=False):
+            self.screen = screen
+            self.x = x
+            self.y = y
+            self.width = width
+            self.height = height
+            self.min = min
+            self.max = max
+            self.step = step
+            self.value = initial
+            self.dragging = False
+            self.rounded = rounded
+            self.track_colour = (0, 0, 0)
+            self.fill_colour = (255, 255, 255)
+            self.handle_colour = (150, 150, 150)
+            self.enabled = True
+    
+            self.handle_width = 20
+            self.handle_height = height + 10
+            self.handle_y = y - 5
+            self.handle_rect = pygame.Rect(self.get_handle_x(), self.handle_y,self.handle_width, self.handle_height)
+    
+        def disable(self):
+            self.enabled = False
+    
+        def enable(self):
+            self.enabled = True
+    
+        def get_handle_x(self):
+            value_range = self.max - self.min
+            position_range = self.width - self.handle_width
+            relative_value = self.value - self.min
+            return self.x + (relative_value / value_range) * position_range
+    
+        def update_fill_colour(self,new_colour):
+            self.fill_colour = new_colour
+    
+        def update_track_colour(self, new_colour):
+            self.track_colour = new_colour
+            track_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, self.width, 4)
+    
+        def update_handle_colour(self, new_colour):
+            self.handle_colour = new_colour
+            self.handle_rect = pygame.Rect(self.get_handle_x(), self.handle_y, self.handle_width, self.handle_height)
+    
+        def draw(self):
+            track_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, self.width, 4)
+            filled_width = self.get_handle_x() - self.x + self.handle_width // 2
+            filled_rect = pygame.Rect(self.x, self.y + self.height // 2 - 2, filled_width, 4)
+            self.handle_rect.x = self.get_handle_x()
+    
+            if self.rounded:
+                pygame.draw.rect(self.screen, self.track_colour, track_rect, border_radius=2)  # Track
+                pygame.draw.rect(self.screen, self.fill_colour, filled_rect, border_radius=2)  # Filled part
+                pygame.draw.rect(self.screen, self.handle_colour , self.handle_rect, border_radius=5)  # Handle
+            else:
+                pygame.draw.rect(self.screen, self.track_colour, track_rect)  # Track
+                pygame.draw.rect(self.screen, self.fill_colour, filled_rect)  # Filled part
+                pygame.draw.rect(self.screen, self.handle_colour, self.handle_rect)  # Handle
+    
+        def listen(self, events):
+            if not self.enabled:
+                return
+    
+            mouse_pos = pygame.mouse.get_pos()
+            for event in events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.handle_rect.collidepoint(mouse_pos):
+                        self.dragging = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    self.dragging = False
+                elif event.type == pygame.MOUSEMOTION and self.dragging:
+                    relative_x = mouse_pos[0] - self.x
+                    value_range = self.max - self.min
+                    position_range = self.width - self.handle_width
+                    new_value = (relative_x / position_range) * value_range + self.min
+    
+                    new_value = max(self.min, min(self.max, new_value))
+                    new_value = round(new_value / self.step) * self.step
+                    self.value = new_value
+    
+        def getValue(self):
+            return self.value
+    
+    class RadioButton:
+        def __init__(self, text, x, y, radius, color_inactive, color_active, text_color=BLACK, selected=False, font=None):
+            self.text = text
+            self.x = x
+            self.y = y
+            self.radius = radius
+            self.color_inactive = color_inactive
+            self.color_active = color_active
+            self.text_color = text_color
+            self.selected = selected
+            self.font = font or Font
+    
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+            self.circle_center = (self.x + self.radius, self.y + self.radius)
+            self.rect = pygame.Rect(self.x, self.y, self.radius * 2 + self.text_surface.get_width() + 10, self.radius * 2)
+    
+        def draw(self, screen):
+            pygame.draw.circle(screen, self.color_active if self.selected else self.color_inactive, self.circle_center, self.radius, 2)
+            if self.selected:
+                pygame.draw.circle(screen, self.color_active, self.circle_center, self.radius // 2)
+            text_x = self.x + self.radius * 2 + 5
+            text_y = self.y + (self.radius * 2 - self.text_surface.get_height()) // 2
+            screen.blit(self.text_surface, (text_x, text_y))
+    
+        def is_clicked(self, event):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if self.rect.collidepoint(event.pos):
+                    return True
+            return False
+    
+        def set_selected(self, value):
+            self.selected = value
+    
+    class RadioGroup:
+        def __init__(self):
+            self.buttons = []
+    
+        def add(self, button):
+            self.buttons.append(button)
+    
+        def handle_event(self, event):
+            for button in self.buttons:
+                if button.is_clicked(event):
+                    for b in self.buttons:
+                        b.set_selected(False)
+                    button.set_selected(True)
+    
+        def draw(self, screen):
+            for button in self.buttons:
+                button.draw(screen)
+    
+    class CheckBox:
+        def __init__(self, text, x, y, size, color_box, color_tick, text_color=BLACK, checked=False, font=None):
+            self.text = text
+            self.x = x
+            self.y = y
+            self.size = size
+            self.color_box = color_box
+            self.color_tick = color_tick
+            self.text_color = text_color
+            self.checked = checked
+            self.font = font or Font
+    
+            self.rect = pygame.Rect(x, y, size, size)
+            self.text_surface = self.font.render(self.text, True, self.text_color)
+    
+        def draw(self, screen):
+            # Draw box
+            pygame.draw.rect(screen, self.color_box, self.rect, 2)
+    
+            if self.checked:
+                pygame.draw.line(screen, self.color_tick, (self.x + 4, self.y + self.size // 2),
+                                 (self.x + self.size // 2, self.y + self.size - 4), 3)
+                pygame.draw.line(screen, self.color_tick, (self.x + self.size // 2, self.y + self.size - 4),
+                                 (self.x + self.size - 4, self.y + 4), 3)
+    
+            screen.blit(self.text_surface, (self.x + self.size + 10, self.y + (self.size - self.text_surface.get_height()) // 2))
+    
+        def is_clicked(self, event):
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if self.rect.collidepoint(event.pos):
+                    self.checked = not self.checked
+                    return True
+            return False
+    
+        def set_checked(self, value):
+            self.checked = value
+    
+        def is_checked(self):
+            return self.checked
+    
+    class Player:
+        def __init__(self, x, y, w, h, color, speed, left, right, front, back,image_offset_x,image_offset_y):
+            self.rect = pygame.Rect(x, y, w, h)
+            self.color = color
+            self.speed = speed  
+            self.image_offset_x = image_offset_x
+            self.image_offset_y = image_offset_y
+            self.playerx = self.rect.x - image_offset_x
+            self.playery = self.rect.y - image_offset_y
+            self.left = left
+            self.right = right
+            self.front = front
+            self.back = back
+    
+        def move(self, keys, collidables):
+            global player_image
+    
+            old_x = self.rect.x
+            old_y = self.rect.y
+    
+            if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                self.rect.x -= self.speed
+                player_image = pygame.image.load(self.left)
+            if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                self.rect.x += self.speed
+                player_image = pygame.image.load(self.right)
+    
+            for box in collidables:
+                if self.rect.colliderect(box):
+                    self.rect.x = old_x
+                    break
+    
+            if keys[pygame.K_UP] or keys[pygame.K_w]:
+                self.rect.y -= self.speed
+                player_image = pygame.image.load(self.back)
+            if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                self.rect.y += self.speed
+                player_image = pygame.image.load(self.front)
+    
+            for box in collidables:
+                if self.rect.colliderect(box):
+                    self.rect.y = old_y
+                    break
+    
             self.player_x = self.rect.x - self.image_offset_x
             self.player_y = self.rect.y - self.image_offset_y
-            player_image = pygame.image.load(self.front)
-        player_image = pygame.transform.scale(player_image, (260, 280))
-        screen.blit(player_image, (self.player_x, self.player_y))
-
-    def update_images(self, left, right, front, back):
-        self.left = left
-        self.right = right
-        self.front = front
-        self.back = back
-
-    def is_clicked(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1 and self.rect.collidepoint(
-                    event.pos):
-                return True
-        return False
+    
+        def draw(self, screen):
+            global player_image
+            keys = pygame.key.get_pressed()
+            if not ((keys[pygame.K_LEFT] or keys[pygame.K_a]) or (
+                    keys[pygame.K_RIGHT] or keys[pygame.K_d]) or (
+                    keys[pygame.K_UP] or keys[pygame.K_w]) or (
+                    keys[pygame.K_DOWN] or keys[pygame.K_s])):
+                self.player_x = self.rect.x - self.image_offset_x
+                self.player_y = self.rect.y - self.image_offset_y
+                player_image = pygame.image.load(self.front)
+            player_image = pygame.transform.scale(player_image, (260, 280))
+            screen.blit(player_image, (self.player_x, self.player_y))
+    
+        def update_images(self, left, right, front, back):
+            self.left = left
+            self.right = right
+            self.front = front
+            self.back = back
+    
+        def is_clicked(self, event):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1 and self.rect.collidepoint(
+                        event.pos):
+                    return True
+            return False
+```
