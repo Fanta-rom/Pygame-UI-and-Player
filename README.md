@@ -9,7 +9,7 @@ this is example code, I didnt check if it works, but it should clarify any confu
 
 Setup:
   Buttons:
-```
+```py
     PlayButton = Button("Play", DARK_GREY, 20, 100, 170, 50,
                         text_color=YELLOW, rounded=True)
     OptionsButton = Button("Options", DARK_GREY, 20, 165, 170,50,
