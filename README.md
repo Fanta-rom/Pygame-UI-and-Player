@@ -61,7 +61,7 @@ Pygame:
 ```py
     VolumeSlider = Slider(screen, 220, 120, 300, 20, min=0, max=100, initial=100, step=1)
 ```
-Ui:
+Ui (examples):
 ```py
   def mainmenu():
       if not pygame.mixer.music.get_busy():
@@ -126,7 +126,7 @@ Loop:
           if current_screen=="options":
               ColorGroup.handle_event(event) 
           if event.type == pygame.QUIT:
-              sys.exit()
+              sys.exit() # or pygame.quit() if you dont need the sys library
           elif PlayButton.is_clicked(event) and current_screen == "menu":
               print("Play button clicked!")
               current_screen = "play"
@@ -135,7 +135,7 @@ Loop:
               current_screen = "options"
           elif QuitButton.is_clicked(event) and current_screen == "menu":
               print("Quit button clicked!")
-              sys.exit()
+              sys.exit() # or pygame.quit() if you dont need the sys library
 
         volume = VolumeSlider.getValue() / 100
         pygame.mixer.music.set_volume(volume)
@@ -154,6 +154,6 @@ Loop:
         mainmenu()
     elif current_screen == "options":
       options()
-    pygame.display.flip()
-      clock.tick(100)
+    pygame.display.flip() # Refresh the screen
+      clock.tick(100) # 100 FPS 
 ```
