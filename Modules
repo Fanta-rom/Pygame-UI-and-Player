@@ -1,4 +1,3 @@
-```py
 BLUE = (0, 0, 255)
 LIGHT_BLUE = (190, 230, 255)
 RED = (255, 0, 0)
@@ -358,4 +357,3 @@ class Player:
                     event.pos):
                 return True
         return False
-```
