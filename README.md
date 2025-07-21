@@ -20,11 +20,11 @@ Setup:
                         text_color=YELLOW, rounded=True)
 ```             
   Text:
-```
+```py
     OverlayText = Text("",0,0,Font,YELLOW)
 ```  
   Radio Buttons:
-```
+```py
     RB1 = RadioButton("RED",250,120,20,BLACK,WHITE,WHITE,True,Font)
     RB2 = RadioButton("BLUE",250,170,20,BLACK,WHITE,WHITE,False,Font)
     RB3 = RadioButton("GREEN",250,220,20,BLACK,WHITE,WHITE,False,Font)
@@ -42,15 +42,15 @@ Setup:
     ColorGroup.add(RB7)
 ```
   Check Box:
-```
+```py
     ThemeCHK = CheckBox("Tune",130,170,30,BLACK,WHITE,WHITE,False,Font)
 ```
   Slider:
-```
+```py
     VolumeSlider = Slider(screen, 220, 120, 300, 20, min=0, max=100, initial=100, step=1)
 ```
 Ui:
-```
+```py
   def mainmenu():
       if not pygame.mixer.music.get_busy():
           pygame.mixer.music.load("D:/Asus/WAV player lol/.venv/Lib/Music/elevate.wav")
@@ -103,7 +103,7 @@ Ui:
       ColorGroup.draw(screen)
 ```
 Loop:
-```
+```py
   current_screen = "menu"
   running = True
   while running:
