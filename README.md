@@ -19,6 +19,15 @@ Pygame:
   Font = pygame.font.Font(size = 50)
   screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN | pygame.SCALED)
   clock = pygame.time.Clock()
+
+  BLUE = (0, 0, 255)
+  RED = (255, 0, 0)
+  WHITE = (255, 255, 255)
+  BLACK = (0, 0, 0)
+  YELLOW = (255, 255, 0)
+  GREY = (128, 128, 128)
+  LIGHT_GREY = (150, 150, 150)
+  DARK_GREY = (40, 40, 40)
 ```
   Buttons:
 ```py
